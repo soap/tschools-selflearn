@@ -30,8 +30,15 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name', 'email',
+        'id', 'first_name', 'last_name', 'email',
     ];
+
+    /**
+    * Indicates whether Nova should check for modifications between viewing and updating a resource.
+    *
+    * @var bool
+    */
+    public static $trafficCop = true;
 
     /**
      * Get the fields displayed by the resource.
@@ -46,7 +53,10 @@ class User extends Resource
 
             Gravatar::make()->maxWidth(50),
 
-            Text::make('Name')
+            Text::make('First Name')
+                ->sortable()
+                ->rules('required', 'max:255'),
+            Text::make('Last Name')
                 ->sortable()
                 ->rules('required', 'max:255'),
 
@@ -61,6 +71,15 @@ class User extends Resource
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),
         ];
+    }
+
+    /**
+     * 
+     * @return string 
+     */
+    public function title()
+    {
+        return $this->first_name . ' ' . $this->last_name;
     }
 
     /**

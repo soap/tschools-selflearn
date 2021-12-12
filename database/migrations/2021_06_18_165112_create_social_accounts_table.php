@@ -22,7 +22,8 @@ class CreateSocialAccountsTable extends Migration
         });
 
         Schema::table('social_accounts', function (Blueprint $table) {
-            $table->foriegn('user_id')->reference('id')->on('')
+            $table->foreign('user_id')->references('id')->on('users')
+                ->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
