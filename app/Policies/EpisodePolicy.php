@@ -18,7 +18,7 @@ class EpisodePolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return $user->isSuperAdmin();
     }
 
     /**
@@ -30,7 +30,7 @@ class EpisodePolicy
      */
     public function view(User $user, Episode $episode)
     {
-        //
+        return $user->isSuperAdmin();
     }
 
     /**
@@ -41,7 +41,7 @@ class EpisodePolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->isSuperAdmin();
     }
 
     /**
@@ -53,7 +53,7 @@ class EpisodePolicy
      */
     public function update(User $user, Episode $episode)
     {
-        //
+        return $user->isSuperAdmin();
     }
 
     /**
@@ -65,7 +65,7 @@ class EpisodePolicy
      */
     public function delete(User $user, Episode $episode)
     {
-        //
+        return $user->isSuperAdmin();
     }
 
     /**
@@ -77,7 +77,7 @@ class EpisodePolicy
      */
     public function restore(User $user, Episode $episode)
     {
-        //
+        return $user->isSuperAdmin();
     }
 
     /**
@@ -89,6 +89,6 @@ class EpisodePolicy
      */
     public function forceDelete(User $user, Episode $episode)
     {
-        //
+        return $user->isSuperAdmin();
     }
 }

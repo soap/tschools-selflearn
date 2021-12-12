@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Cards\Help;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
+use Illuminate\Support\Facades\Hash;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
@@ -25,7 +26,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 $command->secret('Password'),
             ];
         }, function ($first_name, $last_name, $email, $password) {
-            (new User)->forceFill([
+            (new \App\Models\User)->forceFill([
                 'first_name' => $first_name,
                 'last_name' => $last_name,
                 'email' => $email,
@@ -59,9 +60,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function gate()
     {
         Gate::define('viewNova', function ($user) {
-            return in_array($user->email, [
-                //
-            ]);
+            return $user->isSuperAdmin();
         });
     }
 

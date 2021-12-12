@@ -18,7 +18,7 @@ class ChapterPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return $user->isSuperAdmin();
     }
 
     /**
@@ -30,7 +30,7 @@ class ChapterPolicy
      */
     public function view(User $user, Chapter $chapter)
     {
-        //
+        return $user->isSuperAdmin();
     }
 
     /**
@@ -41,7 +41,7 @@ class ChapterPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->isSuperAdmin();
     }
 
     /**
@@ -53,7 +53,7 @@ class ChapterPolicy
      */
     public function update(User $user, Chapter $chapter)
     {
-        //
+        return $user->isSuperAdmin();
     }
 
     /**
@@ -65,7 +65,7 @@ class ChapterPolicy
      */
     public function delete(User $user, Chapter $chapter)
     {
-        //
+        return $user->isSuperAdmin();
     }
 
     /**
@@ -77,7 +77,7 @@ class ChapterPolicy
      */
     public function restore(User $user, Chapter $chapter)
     {
-        //
+        return $user->isSuperAdmin();
     }
 
     /**
@@ -89,6 +89,6 @@ class ChapterPolicy
      */
     public function forceDelete(User $user, Chapter $chapter)
     {
-        //
+        return $user->isSuperAdmin();
     }
 }

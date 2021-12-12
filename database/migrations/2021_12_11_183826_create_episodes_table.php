@@ -20,7 +20,7 @@ class CreateEpisodesTable extends Migration
             $table->longText('description')->nullable();
             $table->foreignId('chapter_id')->constrained()
                 ->cascadeOnDelete()->cascadeOnUpdate();
-            $table->string('video_id')->comment('Vimeo video id');
+            $table->string('video_id')->nullable()->comment('Vimeo video id');
             $table->timestamps();
         });
     }

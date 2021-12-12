@@ -3,19 +3,21 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Gravatar;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Slug;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
-class User extends Resource
+class Chapter extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\Models\User::class;
+    public static $model = \App\Models\Chapter::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -30,7 +32,7 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'first_name', 'last_name', 'email',
+        'name',
     ];
 
     /**
@@ -42,37 +44,19 @@ class User extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make()->sortable(),
 
-            Gravatar::make()->maxWidth(50),
+            ID::make(__('ID'), 'id')->sortable(),
+            
+            BelongsTo::make('Topic', 'topic')->sortable(),
 
-            Text::make('First Name')
+            Text::make('Name')
                 ->sortable()
                 ->rules('required', 'max:255'),
-            Text::make('Last Name')
-                ->sortable()
-                ->rules('required', 'max:255'),
+            Slug::make('Slug')->from('Name'),
 
-            Text::make('Email')
-                ->sortable()
-                ->rules('required', 'email', 'max:254')
-                ->creationRules('unique:users,email')
-                ->updateRules('unique:users,email,{{resourceId}}'),
-
-            Password::make('Password')
-                ->onlyOnForms()
-                ->creationRules('required', 'string', 'min:8')
-                ->updateRules('nullable', 'string', 'min:8'),
+            HasMany::make('Episodes', 'episodes')->sortable(),
+            
         ];
-    }
-
-    /**
-     * 
-     * @return string 
-     */
-    public function title()
-    {
-        return $this->first_name . ' ' . $this->last_name;
     }
 
     /**

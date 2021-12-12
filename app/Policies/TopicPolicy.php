@@ -18,7 +18,7 @@ class TopicPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return $user->isSuperAdmin();
     }
 
     /**
@@ -30,7 +30,7 @@ class TopicPolicy
      */
     public function view(User $user, Topic $topic)
     {
-        //
+        return $user->isSuperAdmin();
     }
 
     /**
@@ -41,7 +41,7 @@ class TopicPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->isSuperAdmin();
     }
 
     /**
@@ -53,7 +53,7 @@ class TopicPolicy
      */
     public function update(User $user, Topic $topic)
     {
-        //
+        return $user->isSuperAdmin();
     }
 
     /**
@@ -65,7 +65,7 @@ class TopicPolicy
      */
     public function delete(User $user, Topic $topic)
     {
-        //
+        return $user->isSuperAdmin();
     }
 
     /**
@@ -77,7 +77,7 @@ class TopicPolicy
      */
     public function restore(User $user, Topic $topic)
     {
-        //
+        return $user->isSuperAdmin();
     }
 
     /**
@@ -89,6 +89,6 @@ class TopicPolicy
      */
     public function forceDelete(User $user, Topic $topic)
     {
-        //
+        return $user->isSuperAdmin();
     }
 }
