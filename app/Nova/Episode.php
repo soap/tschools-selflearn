@@ -9,11 +9,11 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Slug;
 use MichielKempen\NovaOrderField\OrderField;
 use MichielKempen\NovaOrderField\Orderable;
+use Steve\NovaVimeoField\Vimeo;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Episode extends Resource
 {
-
     use Orderable;
 
     /**
@@ -57,7 +57,7 @@ class Episode extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
 
-            BelongsTo::make('Chapter', 'chapter'),
+            BelongsTo::make('Chapter', 'chapter')->searchable(),
 
             Text::make('Name')
                 ->sortable()
@@ -66,6 +66,8 @@ class Episode extends Resource
             Slug::make('Slug')->from('Name'),
 
             OrderField::make('Ordering'),
+            Vimeo::make('Video ID')
+
         ];
     }
 

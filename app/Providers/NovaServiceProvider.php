@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Nova\Metrics\LoginsPerDay;
+use App\Nova\Metrics\NewChpaters;
+use App\Nova\Metrics\NewEpisodes;
+use App\Nova\Metrics\NewTopics;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Cards\Help;
 use Laravel\Nova\Nova;
@@ -72,6 +76,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function cards()
     {
         return [
+            new NewTopics(),
+            new NewChpaters(),
+            new NewEpisodes(),
+            new LoginsPerDay(),
             new Help,
         ];
     }
@@ -83,7 +91,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     protected function dashboards()
     {
-        return [];
+        return [
+        ];
     }
 
     /**

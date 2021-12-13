@@ -3,28 +3,24 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Chapter extends Resource
+class AuthenticationLog extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\Models\Chapter::class;
+    public static $model = \Yadahan\AuthenticationLog\AuthenticationLog::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'id';
 
     /**
      * The columns that should be searched.
@@ -32,7 +28,7 @@ class Chapter extends Resource
      * @var array
      */
     public static $search = [
-        'name',
+        'id',
     ];
 
     /**
@@ -44,18 +40,7 @@ class Chapter extends Resource
     public function fields(Request $request)
     {
         return [
-
             ID::make(__('ID'), 'id')->sortable(),
-            
-            BelongsTo::make('Topic', 'topic')->sortable()->searchable(),
-
-            Text::make('Name')
-                ->sortable()
-                ->rules('required', 'max:255'),
-            Slug::make('Slug')->from('Name'),
-
-            HasMany::make('Episodes', 'episodes')->sortable(),
-            
         ];
     }
 
