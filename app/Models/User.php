@@ -7,13 +7,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Yadahan\AuthenticationLog\AuthenticationLogable;
+use Rappasoft\LaravelAuthenticationLog\Traits\AuthenticationLoggable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Models\Contracts\HasName;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser, HasName
 {
     use HasApiTokens;
     use HasRoles;
@@ -21,7 +23,7 @@ class User extends Authenticatable
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
-    use AuthenticationLogable;
+    use AuthenticationLoggable;
 
     /**
      * The attributes that are mass assignable.
@@ -78,5 +80,15 @@ class User extends Authenticatable
     public function socialAccounts()
     {
         return $this->hasMany(App\Models\SocialAccount::class);
+    }
+
+    public function canAccessFilament(): bool
+    {
+        return $this->isSuperAdmin();
+    }
+    
+    public function getFilamentName(): string
+    {
+        return "{$this->first_name} {$this->last_name}";
     }
 }
