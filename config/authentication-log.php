@@ -1,28 +1,45 @@
 <?php
 
 return [
+    // The database table name
+    // You can change this if the database keys get too long for your driver
+    'table_name' => 'authen_logs',
 
-    /*
-    |--------------------------------------------------------------------------
-    | Notify New Device
-    |--------------------------------------------------------------------------
-    |
-    | Here you define whether to receive notifications when logging from a new device.
-    |
-    */
+    // The database connection where the authentication_log table resides. Leave empty to use the default
+    'db_connection' => null,
 
-    'notify' => env('AUTHENTICATION_LOG_NOTIFY', true),
+    // The events the package listens for to log
+    'events' => [
+        'login' => \Illuminate\Auth\Events\Login::class,
+        'failed' => \Illuminate\Auth\Events\Failed::class,
+        'logout' => \Illuminate\Auth\Events\Logout::class,
+        'logout-other-devices' => \Illuminate\Auth\Events\OtherDeviceLogout::class,
+    ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Old Logs Clear
-    |--------------------------------------------------------------------------
-    |
-    | When the clean-command is executed, all authentication logs older than
-    | the number of days specified here will be deleted.
-    |
-    */
+    'notifications' => [
+        'new-device' => [
+            // Send the NewDevice notification
+            'enabled' => env('NEW_DEVICE_NOTIFICATION', true),
 
-    'older' => 365,
+            // Use torann/geoip to attempt to get a location
+            'location' => true,
 
+            // The Notification class to send
+            'template' => \Rappasoft\LaravelAuthenticationLog\Notifications\NewDevice::class,
+        ],
+        'failed-login' => [
+            // Send the FailedLogin notification
+            'enabled' => env('FAILED_LOGIN_NOTIFICATION', false),
+
+            // Use torann/geoip to attempt to get a location
+            'location' => true,
+
+            // The Notification class to send
+            'template' => \Rappasoft\LaravelAuthenticationLog\Notifications\FailedLogin::class,
+        ],
+    ],
+
+    // When the clean-up command is run, delete old logs greater than `purge` days
+    // Don't schedule the clean-up command if you want to keep logs forever.
+    'purge' => 365,
 ];
